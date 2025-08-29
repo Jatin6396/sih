@@ -1,229 +1,124 @@
-"use client"
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  User,
+  Stethoscope,
+  Shield,
+  Pill,
+  ArrowRight,
+  Heart
+} from "lucide-react";
 
-import { useState, useEffect } from "react"
-import { Users, FileText, BarChart3, Settings, Plus, Search, Edit, Trash2, Eye, Code, TestTube, LayoutDashboard, Trophy, ShieldAlert } from "lucide-react"
-import { useDispatch } from "react-redux"
-import { logoutUser } from "../utils/authSlice"
-import Dashboard from "@/Component/Admin/Dashboard"
-import UsersDetails from "@/Component/Admin/Users"
-import Contests from "@/Component/Admin/contests"
-import Statistics from "@/Component/Admin/Statistics"
-import Reports from "@/Component/Admin/Reports"
-import ProblemManagement from "@/Component/Admin/ProblemManagement"
-import ProblemForm from "@/Component/Admin/ProblemForm"
-export default function Check(){
-  const [activeTab, setActiveTab] = useState("dashboard")
-  const [users, setUsers] = useState([])
-  const [problems, setProblems] = useState([])
-  const [showCreateProblem, setShowCreateProblem] = useState(false)
-  const [editingProblem, setEditingProblem] = useState(null)
-  const [searchTerm, setSearchTerm] = useState("")
-  const [difficultyFilter, setDifficultyFilter] = useState("all")
-  const [settingsOpen, setSettingsOpen] = useState(false)
-  const dispatch = useDispatch()
- 
+export default function LoginPortal() {
+  const [activeButton, setActiveButton] = useState(null);
 
-  // Mock data
-  useEffect(() => {
-
-    setProblems([
-      {
-        id: 1,
-        title: "Two Sum",
-        difficulty: "Easy",
-        tags: ["Array", "Hash Table"],
-        submissions: 1250,
-        acceptance: "85%",
-        description:
-          "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
-        visibleTestCases: [{ input: "[2,7,11,15], target = 9", output: "[0,1]" }],
-        hiddenTestCases: [{ input: "[3,2,4], target = 6", output: "[1,2]" }],
-        startCode: [
-          { language: "JavaScript", code: "function twoSum(nums, target) {\n    // Your code here\n}" },
-          { language: "Python", code: "def two_sum(nums, target):\n    # Your code here\n    pass" },
-        ],
-        referenceSolution: [
-          {
-            language: "JavaScript",
-            code: "function twoSum(nums, target) {\n    const map = new Map();\n    for (let i = 0; i < nums.length; i++) {\n        const complement = target - nums[i];\n        if (map.has(complement)) {\n            return [map.get(complement), i];\n        }\n        map.set(nums[i], i);\n    }\n}",
-          },
-        ],
-      },
-    ])
-  }, [])
-
-  const handleLogout = () => {
-    dispatch(logoutUser())
-  }
-
-
-
-  const filteredProblems = problems.filter((problem) => {
-    const matchesSearch =
-      problem.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      problem.tags.some((tag) => tag.toLowerCase().includes(searchTerm.toLowerCase()))
-    const matchesDifficulty = difficultyFilter === "all" || problem.difficulty === difficultyFilter
-    return matchesSearch && matchesDifficulty
-  })
+  const userTypes = [
+    {
+      id: "patient",
+      title: "Patient Login",
+      description: "Access your medical records, book appointments, and consult with doctors",
+      icon: User,
+      color: "from-blue-500 to-blue-600",
+      hoverColor: "hover:from-blue-600 hover:to-blue-700",
+      path: "/patient-login"
+    },
+    {
+      id: "doctor",
+      title: "Doctor Login",
+      description: "Access your dashboard, manage appointments, and consult with patients",
+      icon: Stethoscope,
+      color: "from-green-500 to-green-600",
+      hoverColor: "hover:from-green-600 hover:to-green-700",
+      path: "/doctor-login"
+    },
+    {
+      id: "admin",
+      title: "Admin Login",
+      description: "Manage system settings, users, and platform operations",
+      icon: Shield,
+      color: "from-purple-500 to-purple-600",
+      hoverColor: "hover:from-purple-600 hover:to-purple-700",
+      path: "/admin-login"
+    },
+    {
+      id: "pharmacist",
+      title: "Pharmacist Login",
+      description: "Manage prescriptions, inventory, and medication orders",
+      icon: Pill,
+      color: "from-orange-500 to-orange-600",
+      hoverColor: "hover:from-orange-600 hover:to-orange-700",
+      path: "/pharmacist-login"
+    }
+  ];
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-emerald-50 via-white to-emerald-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950">
-      {/* Sidebar */}
-      <div className="w-64 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border-r border-emerald-200 dark:border-emerald-800 p-6 flex flex-col">
-        <div className="flex items-center space-x-3 mb-8">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-r from-emerald-500 to-emerald-700">
-            <Code className="h-6 w-6 text-white" />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-teal-50 flex items-center justify-center p-4">
+      <div className="max-w-6xl w-full">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="flex items-center justify-center mb-4">
+            <div className="bg-blue-600 p-3 rounded-xl mr-3">
+              <Heart className="h-8 w-8 text-white" />
+            </div>
+            <h1 className="text-4xl font-bold text-gray-800">Jeevika Telemedicine</h1>
           </div>
-          <span className="text-xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-800 bg-clip-text text-transparent">
-            CodeCraft
-          </span>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Welcome to Jeevika's secure healthcare portal. Please select your login type to continue.
+          </p>
         </div>
-        <p className="text-sm text-emerald-600 dark:text-emerald-400 mb-6">Admin Panel</p>
 
-        <nav className="space-y-2 flex flex-col">
-          <button
-            onClick={() => setActiveTab("dashboard")}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-              activeTab === "dashboard"
-                ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300"
-                : "text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
-            }`}
-          >
-            <LayoutDashboard className="w-5 h-5" />
-            Dashboard
-          </button>
-
-          <button
-            onClick={() => setActiveTab("problems")}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-              activeTab === "problems"
-                ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300"
-                : "text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
-            }`}
-          >
-            <FileText className="w-5 h-5" />
-            Problems
-          </button>
-
-          <button
-            onClick={() => setActiveTab("users")}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-              activeTab === "users"
-                ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300"
-                : "text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
-            }`}
-          >
-            <Users className="w-5 h-5" />
-            Users
-          </button>
-
-          <button
-            onClick={() => setActiveTab("contests")}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-              activeTab === "contests"
-                ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300"
-                : "text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
-            }`}
-          >
-            <Trophy className="w-5 h-5" />
-            Contests
-          </button>
-
-          <button
-            onClick={() => setActiveTab("statistics")}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-              activeTab === "statistics"
-                ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300"
-                : "text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
-            }`}
-          >
-            <BarChart3 className="w-5 h-5" />
-            Statistics
-          </button>
-
-          <button
-            onClick={() => setActiveTab("reports")}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-              activeTab === "reports"
-                ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300"
-                : "text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
-            }`}
-          >
-            <ShieldAlert className="w-5 h-5" />
-            Reports
-          </button>
-
-          {/* Settings dropdown */}
-          <div className="relative">
-            <button
-              onClick={() => setSettingsOpen(!settingsOpen)}
-              className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
-                settingsOpen
-                  ? "bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300"
-                  : "text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
-              }`}
-            >
-              <Settings className="w-5 h-5" />
-              Settings
-              <span className={`transform transition-transform ${settingsOpen ? 'rotate-180' : ''}`}>▼</span>
-            </button>
-
-            {settingsOpen && (
-              <div className="absolute left-0 mt-1 w-full rounded-md bg-white dark:bg-gray-800 border border-emerald-200 dark:border-emerald-800 shadow-lg z-20">
-                <button
-                  onClick={handleLogout}
-                  className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
-                >
-                  Logout
-                </button>
+        {/* Login Options Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {userTypes.map((user) => {
+            const IconComponent = user.icon;
+            return (
+              <div 
+                key={user.id}
+                className={`bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 transform hover:scale-105 hover:shadow-xl border-2 ${
+                  activeButton === user.id ? 'border-blue-500' : 'border-transparent'
+                }`}
+                onMouseEnter={() => setActiveButton(user.id)}
+                onMouseLeave={() => setActiveButton(null)}
+              >
+                <div className="p-6">
+                  <div className="flex items-start mb-4">
+                    <div className={`p-3 rounded-lg bg-gradient-to-r ${user.color} mr-4`}>
+                      <IconComponent className="h-6 w-6 text-white" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-gray-800">{user.title}</h2>
+                  </div>
+                  <p className="text-gray-600 mb-6">{user.description}</p>
+                  <Link to={user.path}>
+                    <button 
+                      className={`w-full py-3 px-4 rounded-lg bg-gradient-to-r ${user.color} ${user.hoverColor} text-white font-medium transition-all duration-300 flex items-center justify-center`}
+                    >
+                      Login as {user.title.split(' ')[0]}
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </button>
+                  </Link>
+                </div>
               </div>
-            )}
-          </div>
-        </nav>
+            );
+          })}
+        </div>
 
-        {/* Footer */}
-        <div className="mt-auto pt-6 border-t border-emerald-200 dark:border-emerald-800 text-sm text-emerald-600 dark:text-emerald-400">
-          CodeCraft Admin © {new Date().getFullYear()}
+        {/* Emergency Notice */}
+        <div className="mt-12 bg-red-50 border border-red-200 rounded-lg p-6 text-center max-w-2xl mx-auto">
+          <h3 className="text-lg font-semibold text-red-800 mb-2">Medical Emergency?</h3>
+          <p className="text-red-600">
+            If you are experiencing a medical emergency, please call your local emergency number immediately.
+          </p>
+          <a href="tel:108" className="inline-block mt-4 bg-red-600 text-white py-2 px-6 rounded-lg hover:bg-red-700 transition-colors">
+            Call Emergency: 108
+          </a>
+        </div>
+
+        {/* Support Information */}
+        <div className="mt-8 text-center text-gray-500">
+          <p>Need help? Contact our support team at <a href="mailto:support@jeevika.com" className="text-blue-600 hover:underline">support@jeevika.com</a></p>
+          <p className="mt-2">Or call us at <a href="tel:+18001234567" className="text-blue-600 hover:underline">+1 (800) 123-JEEVIKA</a></p>
         </div>
       </div>
-
-      {/* Main Content */}
-      <div className="flex-1 p-8 overflow-y-auto">
-        {/* Dashboard */}
-        {activeTab === "dashboard" ? <Dashboard /> : null}
-        {/* Users Management */}
-        {activeTab === "users"? <UsersDetails />:null}
-        {/* Problems Management */}
-        {activeTab === "problems" ?<ProblemManagement/>:null}
-
-        {/* Other tabs */}
-        {activeTab === "contests" ?<Contests/>:null}
-
-        {activeTab === "statistics" ?<Statistics/>:null}
-
-        {activeTab === "reports"?<Reports/>:null}
-      </div>
-
-      {/* Problem Form Modal */}
-      {(showCreateProblem || editingProblem) && (
-        <ProblemForm
-          problem={editingProblem}
-          onSave={(problemData) => {
-            if (editingProblem) {
-              setProblems((prev) => prev.map((p) => (p.id === editingProblem.id ? problemData : p)))
-            } else {
-              setProblems((prev) => [...prev, problemData])
-            }
-            setShowCreateProblem(false)
-            setEditingProblem(null)
-          }}
-          onCancel={() => {
-            setShowCreateProblem(false)
-            setEditingProblem(null)
-          }}
-        />
-      )}
     </div>
-  )
+  );
 }
-

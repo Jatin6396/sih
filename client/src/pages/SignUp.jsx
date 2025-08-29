@@ -1,224 +1,115 @@
-import React, { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Eye, EyeOff, Mail, Lock, User, ArrowRight, Code2 } from "lucide-react";
-import { FaGithub, FaGoogle, FaLinkedin } from "react-icons/fa";
-import { registerUser } from "../utils/authSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import {
+  User,
+  Stethoscope,
+  Shield,
+  Pill,
+  ArrowRight,
+  Heart
+} from "lucide-react";
 
-const signupSchema = z
-  .object({
-    fullName: z.string().min(3, "Full name must be at least 2 characters"),
-    email: z.string().email("Invalid email address"),
-    password: z
-      .string()
-      .min(8, "Password must be at least 8 characters")
-      .regex(/[A-Z]/, "Must include an uppercase letter")
-      .regex(/[a-z]/, "Must include a lowercase letter")
-      .regex(/\d/, "Must include a number"),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords do not match",
-    path: ["confirmPassword"],
-  });
+export default function Signup() {
+  const [activeButton, setActiveButton] = useState(null);
 
-function Signup() {
-  const { isAuthenticated, loading } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    resolver: zodResolver(signupSchema),
-  });
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/");
+  const userTypes = [
+    {
+      id: "patient",
+      title: "Patient Login",
+      description: "Access your medical records, book appointments, and consult with doctors",
+      icon: User,
+      color: "from-blue-500 to-blue-600",
+      hoverColor: "hover:from-blue-600 hover:to-blue-700",
+      path: "/patient-login"
+    },
+    {
+      id: "doctor",
+      title: "Doctor Login",
+      description: "Access your dashboard, manage appointments, and consult with patients",
+      icon: Stethoscope,
+      color: "from-green-500 to-green-600",
+      hoverColor: "hover:from-green-600 hover:to-green-700",
+      path: "/doctor-login"
+    },
+    {
+      id: "pharmacist",
+      title: "Pharmacist Login",
+      description: "Manage prescriptions, inventory, and medication orders",
+      icon: Pill,
+      color: "from-orange-500 to-orange-600",
+      hoverColor: "hover:from-orange-600 hover:to-orange-700",
+      path: "/pharmacist-login"
     }
-  }, [isAuthenticated, navigate]);
-
-  const onSubmit = (data) => {
-    const userData = {
-      FirstName: data.fullName,
-      emailId: data.email,
-      password: data.password,
-      confirmpassword: data.confirmPassword
-    };
-    dispatch(registerUser(userData));
-  };
-
-  const handleOAuthSignup = (provider) => {
-    // TODO: Implement OAuth signup
-    console.log(`Sign up with ${provider}`);
-  };
+  ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-emerald-50 via-white to-emerald-50 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 p-4">
-      <Card className="w-full max-w-md shadow-xl border-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm">
-        <CardHeader className="space-y-1 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-emerald-500 to-emerald-700 rounded-2xl mb-4 mx-auto">
-            <Code2 className="w-8 h-8 text-white" />
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-slate-50 to-teal-50 flex items-center justify-center p-4">
+      <div className="max-w-6xl w-full">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="flex items-center justify-center mb-4">
+            <div className="bg-blue-600 p-3 rounded-xl mr-3">
+              <Heart className="h-8 w-8 text-white" />
+            </div>
+            <h1 className="text-4xl font-bold text-gray-800">Jeevika Telemedicine</h1>
           </div>
-          <CardTitle className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-800 bg-clip-text text-transparent">
-            Create an Account
-          </CardTitle>
-          <CardDescription className="text-gray-600 dark:text-gray-400">
-            Join us to start your coding journey
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            {/* Full Name */}
-            <div className="space-y-2">
-              <Label htmlFor="fullName">Full Name</Label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-                <Input
-                  id="fullName"
-                  type="text"
-                  {...register("fullName")}
-                  autoComplete="name"
-                  className="pl-10 transition-all duration-200 focus:ring-2 focus:ring-emerald-500"
-                  placeholder="Enter your full name"
-                />
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            Welcome to Jeevika's secure healthcare portal. Please select your login type to continue.
+          </p>
+        </div>
+
+        {/* Login Options Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {userTypes.map((user) => {
+            const IconComponent = user.icon;
+            return (
+              <div 
+                key={user.id}
+                className={`bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 transform hover:scale-105 hover:shadow-xl border-2 ${
+                  activeButton === user.id ? 'border-blue-500' : 'border-transparent'
+                }`}
+                onMouseEnter={() => setActiveButton(user.id)}
+                onMouseLeave={() => setActiveButton(null)}
+              >
+                <div className="p-6">
+                  <div className="flex items-start mb-4">
+                    <div className={`p-3 rounded-lg bg-gradient-to-r ${user.color} mr-4`}>
+                      <IconComponent className="h-6 w-6 text-white" />
+                    </div>
+                    <h2 className="text-2xl font-bold text-gray-800">{user.title}</h2>
+                  </div>
+                  <p className="text-gray-600 mb-6">{user.description}</p>
+                  <Link to={user.path}>
+                    <button 
+                      className={`w-full py-3 px-4 rounded-lg bg-gradient-to-r ${user.color} ${user.hoverColor} text-white font-medium transition-all duration-300 flex items-center justify-center`}
+                    >
+                      Login as {user.title.split(' ')[0]}
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </button>
+                  </Link>
+                </div>
               </div>
-              {errors.fullName && <p className="text-sm text-red-500">{errors.fullName.message}</p>}
-            </div>
+            );
+          })}
+        </div>
 
-            {/* Email */}
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-                <Input
-                  id="email"
-                  type="email"
-                  {...register("email")}
-                  autoComplete="email"
-                  className="pl-10 transition-all duration-200 focus:ring-2 focus:ring-emerald-500"
-                  placeholder="Enter your email"
-                />
-              </div>
-              {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
-            </div>
+        {/* Emergency Notice */}
+        <div className="mt-12 bg-red-50 border border-red-200 rounded-lg p-6 text-center max-w-2xl mx-auto">
+          <h3 className="text-lg font-semibold text-red-800 mb-2">Medical Emergency?</h3>
+          <p className="text-red-600">
+            If you are experiencing a medical emergency, please call your local emergency number immediately.
+          </p>
+          <a href="tel:108" className="inline-block mt-4 bg-red-600 text-white py-2 px-6 rounded-lg hover:bg-red-700 transition-colors">
+            Call Emergency: 108
+          </a>
+        </div>
 
-            {/* Password */}
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  {...register("password")}
-                  autoComplete="new-password"
-                  className="pl-10 pr-10 transition-all duration-200 focus:ring-2 focus:ring-emerald-500"
-                  placeholder="Enter your password"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
-                >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
-              {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
-            </div>
-
-            {/* Confirm Password */}
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
-                <Input
-                  id="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
-                  {...register("confirmPassword")}
-                  autoComplete="new-password"
-                  className="pl-10 pr-10 transition-all duration-200 focus:ring-2 focus:ring-emerald-500"
-                  placeholder="Confirm your password"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
-                >
-                  {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-                </button>
-              </div>
-              {errors.confirmPassword && (
-                <p className="text-sm text-red-500">{errors.confirmPassword.message}</p>
-              )}
-            </div>
-
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 hover:from-emerald-700 hover:to-emerald-800 transition-all duration-200 transform hover:scale-[1.02]"
-            >
-              {loading ? (
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              ) : (
-                <>
-                  Create Account <ArrowRight className="ml-2 w-4 h-4" />
-                </>
-              )}
-            </Button>
-          </form>
-
-          {/* Separator */}
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <Separator className="w-full" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white dark:bg-gray-900 px-2 text-gray-500">Or continue with</span>
-            </div>
-          </div>
-
-          {/* OAuth Buttons */}
-          <div className="grid grid-cols-3 gap-3">
-            <Button variant="outline" onClick={() => handleOAuthSignup("Google")} className="transition-all duration-200 hover:scale-105">
-              <FaGoogle className="h-4 w-4" />
-            </Button>
-            <Button variant="outline" onClick={() => handleOAuthSignup("LinkedIn")} className="transition-all duration-200 hover:scale-105">
-              <FaLinkedin className="h-4 w-4 text-blue-600" />
-            </Button>
-            <Button variant="outline" onClick={() => handleOAuthSignup("GitHub")} className="transition-all duration-200 hover:scale-105">
-              <FaGithub className="h-4 w-4" />
-            </Button>
-          </div>
-
-          {/* Login Link */}
-          <div className="text-center text-sm">
-            <span className="text-gray-600 dark:text-gray-400">Already have an account? </span>
-            <Link
-              to="/login"
-              className="text-emerald-600 hover:text-emerald-700 font-medium transition-colors duration-200"
-            >
-              Sign in
-            </Link>
-          </div>
-        </CardContent>
-      </Card>
+        {/* Support Information */}
+        <div className="mt-8 text-center text-gray-500">
+          <p>Need help? Contact our support team at <a href="mailto:support@jeevika.com" className="text-blue-600 hover:underline">support@jeevika.com</a></p>
+          <p className="mt-2">Or call us at <a href="tel:+18001234567" className="text-blue-600 hover:underline">+1 (800) 123-JEEVIKA</a></p>
+        </div>
+      </div>
     </div>
   );
 }
-
-export default Signup;

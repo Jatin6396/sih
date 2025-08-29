@@ -5,8 +5,15 @@ import axiosClient from "./axiosClient";
 export const registerUser = createAsyncThunk(
   "auth/register",
   async (userData, { rejectWithValue }) => {
+    console.log(userData)
     try {
-      const response = await axiosClient.post("/users/register", userData);
+      console.log(userData);
+      
+      const response = await axiosClient.post("/user/signup", userData);
+      console.log("Hii "+userData);
+      console.log(response);
+      console.log(response.data);
+      console.log(response.data.user);
       return response.data.user; // adjust if backend sends differently
     } catch (err) {
       const errorMessage =
@@ -22,7 +29,7 @@ export const loginUser = createAsyncThunk(
   async (userData, { rejectWithValue }) => {
     try {
       console.log(userData)
-      const response = await axiosClient.post("/users/login", userData);
+      const response = await axiosClient.post("/user/signin", userData);
       return response.data.user;
     } catch (err) {
       console.error(err);

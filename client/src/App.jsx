@@ -5,14 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { checkAuth } from "./utils/authSlice";
 import { useEffect } from "react";
 import Check from "./pages/check"
-import AdminPanel from "./pages/AdminPanel";
-import CreateProblem  from "./Component/Admin/CreateProblem";
-import ProblemManagement from "./Component/Admin/ProblemManagement";
-import AdminUsers from "./Component/Admin/Users";
-// import DeleteProblem from "./Component/Admin/DeleteProblem";
-import UpdateProblem from "./Component/Admin/UpdateProblem";
 import LandingPage from "./pages/LandingPage";
 import HomePage from "./pages/Homepage";
+
+import PatientRegistration from "./Component/Core/PatientLogic";
+import DoctorRegistration from "./Component/Core/DoctorLogin";
+import PharmacyRegistration from "./Component/Core/Pharmists";
+import AdminPanel from "./Component/Dashboard/Admin-dashboard";
+// import AdminPanel from "./pages/AdminPanel";
 
 
 export default function App(){
@@ -20,10 +20,7 @@ export default function App(){
   
   const dispatch=useDispatch();
 
-  useEffect(()=>{
-    dispatch(checkAuth())
-  },[dispatch]) //dependecies ko khali bhi chhod skate ha 
-  console.log(user);
+ console.log("App.js",isAuthenticated,loading,user);
 
 
 const LoadingScreen = () => {
@@ -80,21 +77,15 @@ if (loading) {
    <Route path="/" element={<LandingPage />} />
   <Route path="/signup" element={isAuthenticated ? <Navigate to="/dashboard" /> : <SignUp />} />
   <Route path="/login" element={isAuthenticated ? <Navigate to="/dashboard" /> :<Login />} />
-  <Route path="/dashboard" element={isAuthenticated ? <HomePage /> : <Navigate to="/login" />} />
+  <Route path="/dashboard" element={ <HomePage /> } />
+  <Route path="admin-dashboard" element={<AdminPanel></AdminPanel>}/>
+  {/* <Route path="/adminpanel" element={ <AdminPanel /> } /> */}
   {/* Check Page (if needed) */}
-  <Route path="/c" element={<Check />} />
 
-  {/* Admin Routes */}
-  <Route
-    path="/admin"
-    element={isAuthenticated && user?.role === "admin" ? <AdminPanel /> : <Navigate to="/" />}
-  >
-    <Route path="problem/create" element={<CreateProblem />} />
-    <Route path="problem" element={<ProblemManagement />} />
-    {/* <Route path="problem/delete" element={<DeleteProblem />} /> */}
-    <Route path="problems/update" element={<UpdateProblem />} />
-    <Route path="users" element={<AdminUsers />} />
-  </Route>
+  <Route path="/patient-login" element={<PatientRegistration>m    </PatientRegistration>}></Route>
+  <Route path="/doctor-login" element={<DoctorRegistration></DoctorRegistration>}></Route>
+  <Route path="pharmacist-login" element={<PharmacyRegistration></PharmacyRegistration>}></Route>
+  
 </Routes>
     </>
   )
