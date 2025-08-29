@@ -7,9 +7,11 @@ import { useState, useEffect } from "react"
 import { Link } from "react-router-dom"
 import Header from "@/Component/Common/Header"
 import Footer from "@/Component/Common/Footer"
+import { useTranslation } from "react-i18next";
 
 export default function LandingPage() {
   const [isVisible, setIsVisible] = useState(false)
+   const { t, i18n } = useTranslation();
 
   useEffect(() => {
     setIsVisible(true)
@@ -32,17 +34,16 @@ export default function LandingPage() {
             className={`max-w-4xl mx-auto text-center transition-all duration-1000 ${isVisible ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"}`}
           >
             <Badge variant="secondary" className="mb-6 bg-blue-100 text-blue-800 hover:bg-blue-200">
-              Trusted by 50,000+ patients
+               {t("hero.trusted")}
             </Badge>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
-              Quality Healthcare{" "}
+               {t("hero.title")}{" "}
               <span className="text-blue-600 bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text ">
-                From Home
+                {t("hero.subtitle")}
               </span>
             </h1>
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-              Connect with certified doctors instantly through our secure telemedicine platform. 
-              Get personalized medical care without leaving your home.
+               {t("hero.description")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/signup">
@@ -50,7 +51,7 @@ export default function LandingPage() {
                   size="lg"
                   className="text-lg px-8 py-6 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl bg-blue-600 hover:bg-blue-700 text-white"
                 >
-                  Book an Appointment
+                  {t("hero.book")}
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
@@ -60,22 +61,22 @@ export default function LandingPage() {
                   size="lg"
                   className="text-lg px-8 py-6 bg-transparent hover:scale-105 transition-all duration-300 border-2 border-blue-300 hover:bg-blue-50 text-blue-600"
                 >
-                  Patient Login
+                  {t("hero.login")}
                 </Button>
               </Link>
             </div>
             <div className="mt-12 flex items-center justify-center space-x-8 text-sm text-muted-foreground">
               <div className="flex items-center space-x-2 hover:scale-105 transition-transform duration-200">
                 <CheckCircle className="h-4 w-4 text-blue-600" />
-                <span>HIPAA Compliant</span>
+                <span> {t("hero.feature1")}</span>
               </div>
               <div className="flex items-center space-x-2 hover:scale-105 transition-transform duration-200">
                 <CheckCircle className="h-4 w-4 text-blue-600" />
-                <span>24/7 Availability</span>
+                <span> {t("hero.feature2")}</span>
               </div>
               <div className="flex items-center space-x-2 hover:scale-105 transition-transform duration-200">
                 <CheckCircle className="h-4 w-4 text-blue-600" />
-                <span>Board-Certified Doctors</span>
+                <span> {t("hero.feature3")}</span>
               </div>
             </div>
           </div>
@@ -88,7 +89,7 @@ export default function LandingPage() {
           <div className="text-center mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Comprehensive Telemedicine Services</h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              We provide a wide range of healthcare services to meet all your medical needs
+             {t("features.subtitle")}
             </p>
           </div>
 
@@ -98,9 +99,9 @@ export default function LandingPage() {
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Stethoscope className="h-6 w-6 text-blue-600" />
                 </div>
-                <CardTitle>Virtual Consultations</CardTitle>
+                <CardTitle>{t("features.virtual")}</CardTitle>
                 <CardDescription>
-                  Connect with doctors via secure video calls for diagnosis, treatment plans, and medical advice
+                  {t("features.virtual.decs")}
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -110,9 +111,9 @@ export default function LandingPage() {
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Calendar className="h-6 w-6 text-blue-600" />
                 </div>
-                <CardTitle>Easy Scheduling</CardTitle>
+                <CardTitle>{t("features.scheduling")}</CardTitle>
                 <CardDescription>
-                  Book appointments at your convenience with our easy-to-use scheduling system
+                 {t("features.scheduling.decs")}
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -122,9 +123,9 @@ export default function LandingPage() {
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Shield className="h-6 w-6 text-blue-600" />
                 </div>
-                <CardTitle>Secure Health Records</CardTitle>
+                <CardTitle>{t("features.records")}</CardTitle>
                 <CardDescription>
-                  Access your medical history, prescriptions, and test results in one secure place
+                  {t("features.records.decs")}
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -134,9 +135,9 @@ export default function LandingPage() {
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Heart className="h-6 w-6 text-blue-600" />
                 </div>
-                <CardTitle>Chronic Care Management</CardTitle>
+                <CardTitle>{t("features.chronic")}</CardTitle>
                 <CardDescription>
-                  Ongoing support and monitoring for chronic conditions like diabetes, hypertension, and more
+                  {t("features.chronic.decs")}
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -146,9 +147,9 @@ export default function LandingPage() {
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Clock className="h-6 w-6 text-blue-600" />
                 </div>
-                <CardTitle>24/7 Urgent Care</CardTitle>
+                <CardTitle>{t("features.urgent")}</CardTitle>
                 <CardDescription>
-                  Get immediate medical attention for urgent health concerns, anytime day or night
+                  {t("features.urgent.decs")}
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -158,9 +159,9 @@ export default function LandingPage() {
                 <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
                   <Users className="h-6 w-6 text-blue-600" />
                 </div>
-                <CardTitle>Specialist Referrals</CardTitle>
+                <CardTitle>{t("features.referrals")}</CardTitle>
                 <CardDescription>
-                  Get connected with specialists for specific health conditions when needed
+                  {t("features.referrals.decs")}
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -172,9 +173,9 @@ export default function LandingPage() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">How Jeevika Works</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">{t("howItWorks.title")}</h2>
             <p className="text-xl text-muted-foreground">
-              Getting quality healthcare has never been easier
+              {t("howItWorks.subtitle")}  
             </p>
           </div>
 
@@ -183,9 +184,9 @@ export default function LandingPage() {
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <span className="text-2xl font-bold text-blue-600">1</span>
               </div>
-              <h3 className="text-xl font-semibold mb-3">Create an Account</h3>
+              <h3 className="text-xl font-semibold mb-3">{t("howItWorks.step1")}</h3>
               <p className="text-muted-foreground">
-                Sign up and complete your medical profile in minutes
+               {t("howItWorks.step1.desc")}
               </p>
             </div>
 
@@ -193,9 +194,9 @@ export default function LandingPage() {
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <span className="text-2xl font-bold text-blue-600">2</span>
               </div>
-              <h3 className="text-xl font-semibold mb-3">Book an Appointment</h3>
+              <h3 className="text-xl font-semibold mb-3">{t("howItWorks.step2")}</h3>
               <p className="text-muted-foreground">
-                Choose a doctor and select a convenient time slot
+                {t("howItWorks.step2.desc")}
               </p>
             </div>
 
@@ -203,9 +204,9 @@ export default function LandingPage() {
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <span className="text-2xl font-bold text-blue-600">3</span>
               </div>
-              <h3 className="text-xl font-semibold mb-3">Connect with a Doctor</h3>
+              <h3 className="text-xl font-semibold mb-3">{t("howItWorks.step3")}</h3>
               <p className="text-muted-foreground">
-                Have your consultation via secure video call and receive treatment
+                {t("howItWorks.step3.desc")}
               </p>
             </div>
           </div>
@@ -216,9 +217,9 @@ export default function LandingPage() {
       <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Patient Success Stories</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">{t( "testimonials.title")}</h2>
             <p className="text-xl text-muted-foreground">
-              Hear from our patients about their experiences with Jeevika
+              {t("testimonials.subtitle")}
             </p>
           </div>
 
@@ -235,7 +236,7 @@ export default function LandingPage() {
                   ))}
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "Jeevika saved me a trip to the ER during a severe migraine. The doctor was able to prescribe medication that my husband could pick up. Amazing service!"
+                {t("testimonial1")}
                 </p>
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
@@ -261,7 +262,7 @@ export default function LandingPage() {
                   ))}
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "As someone with diabetes, having regular check-ins with my doctor through Jeevika has helped me manage my condition much better."
+                {t("testimonial2")}
                 </p>
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
@@ -287,7 +288,7 @@ export default function LandingPage() {
                   ))}
                 </div>
                 <p className="text-muted-foreground mb-4">
-                  "I live in a rural area with limited access to specialists. Jeevika has connected me with top doctors without the long travel times."
+                 {t("testimonial3")}
                 </p>
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
@@ -308,9 +309,9 @@ export default function LandingPage() {
       <section className="py-20 bg-blue-600 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-teal-600"></div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">Ready to Experience Modern Healthcare?</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4">{t("cta.title")}</h2>
           <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Join thousands of patients who trust Jeevika for their healthcare needs
+           {t("cta.subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/signup">
@@ -318,7 +319,7 @@ export default function LandingPage() {
                 size="lg"
                 className="text-lg px-8 py-6 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl bg-white text-blue-600 hover:bg-blue-50"
               >
-                Sign Up Now
+               {t("cta.signup")}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
@@ -328,7 +329,7 @@ export default function LandingPage() {
                 size="lg"
                 className="text-lg px-8 py-6 bg-transparent hover:scale-105 transition-all duration-300 border-2 border-white text-white hover:bg-white/10"
               >
-                Patient Login
+                {t("cta.login")}
               </Button>
             </Link>
           </div>
@@ -339,7 +340,7 @@ export default function LandingPage() {
       <div className="bg-red-600 text-white py-4 text-center">
         <div className="container mx-auto px-4">
           <p className="font-medium">
-            <span className="font-bold">Emergency Notice:</span> If you are experiencing a medical emergency, please call 911 or go to the nearest emergency room immediately.
+            <span className="font-bold">{t("emergency.notice")}</span> 
           </p>
         </div>
       </div>

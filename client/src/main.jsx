@@ -5,6 +5,7 @@ import App from './App.jsx'
 import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { store } from './store/store.js'
+import "./i18n.js";
 
 import { ThemeProvider } from "@/Theme/theme-provider" // adjust path if needed
 
