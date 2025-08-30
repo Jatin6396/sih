@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Eye, EyeOff, Stethoscope, Shield, Heart } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { loginUser } from "../utils/authSlice";
+import { loginUser } from "../../utils/authSlice";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -61,7 +61,7 @@ export default function Login() {
     };
 
     try {
-      dispatch(loginUser(loginData));
+      await dispatch(loginUser(loginData));
     } catch (err) {
       console.error("Login failed:", err);
     }

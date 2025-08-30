@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/Theme/theme-toggle";
-import { Stethoscope, Menu, X, User, Calendar } from "lucide-react";
+import { Stethoscope, Menu, X, User, Calendar ,ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -69,6 +69,17 @@ export default function Header() {
                 {t("doctors")}
               </Button>
             </Link>
+            <Link to="/medicine/all">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-slate-600 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 hover:scale-105 transition-transform duration-200 flex items-center gap-1"
+              >
+                <User className="h-4 w-4" />
+                {t("Medicine")} 
+              </Button>
+            </Link>
+            <Link to="/cart"><ShoppingCart/></Link>
             <ThemeToggle />
 
             {/* Language Selector */}

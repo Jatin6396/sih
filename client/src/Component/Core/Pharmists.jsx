@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Mail, Lock, User, MapPin, Phone, FilePlus } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export default function PharmacyRegistration() {
   const [formData, setFormData] = useState({
@@ -21,6 +22,7 @@ export default function PharmacyRegistration() {
 
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+ 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -55,7 +57,7 @@ export default function PharmacyRegistration() {
     const response = await axios.post("http://localhost:5500/api/v1/user/pharmacy/signup", formData);
        console.log(formData);
     if (response.data.success) {
-      alert("Paitents registered successfully!");
+      alert("Pharmacy Owner registered successfully!");
 
     } else {
       alert(response.data.message || "Registration failed.");

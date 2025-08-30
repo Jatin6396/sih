@@ -7,6 +7,18 @@ import { useEffect } from "react";
 import Check from "./pages/check"
 import LandingPage from "./pages/LandingPage";
 import HomePage from "./pages/Homepage";
+import Dashboard from "./pages/Pharmacy/Dashboard";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import PharmacyProductsTable from "./pages/Pharmacy/PharmacyProductsTable";
+import OrderManagement from "./pages/Pharmacy/OrderManagement";
+import DoctorProfile from "./pages/Doctor/DoctorProfile";
+import AppointmentRequests from "./pages/Doctor/Appointments";
+import DoctorsListingPage from "./pages/Patient/Doctors";
+import HHomePage from "./pages/Patient/Profile";
+import MedicinePage from "./pages/MedicinePage";
+import CartPage from "./pages/CartPage";
+import { CartProvider } from "./context/cartContext";
+
 
 import PatientRegistration from "./Component/Core/PatientLogic";
 import DoctorRegistration from "./Component/Core/DoctorLogin";
@@ -70,23 +82,66 @@ const LoadingScreen = () => {
 if (loading) {
   return <LoadingScreen />;
 }
+  const getDashboardRedirect = () => {
+    if (!user) return "/login";
+    switch (user.role) {
+      case "patient":
+        return "/dashboard";
+      case "admin":
+        return "/admin-dashboard";
+      case "doctor":
+        return "/doctor/profile";
+      case "pharmacyOwner":
+        return "/pharmacy/dashboard";
+      default:
+        return "/login";
+    }
+  };
   return(
     <>
+    <CartProvider userId={"68b0b821d4a3317e0e2f972e"}>
    <Routes>
   {/* Public Routes */}
    <Route path="/" element={<LandingPage />} />
   <Route path="/signup" element={isAuthenticated ? <Navigate to="/dashboard" /> : <SignUp />} />
-  <Route path="/login" element={isAuthenticated ? <Navigate to="/dashboard" /> :<Login />} />
+  
   <Route path="/dashboard" element={ <HomePage /> } />
   <Route path="admin-dashboard" element={<AdminPanel></AdminPanel>}/>
-  {/* <Route path="/adminpanel" element={ <AdminPanel /> } /> */}
-  {/* Check Page (if needed) */}
+     <Route
+          path="/login"
+          element={isAuthenticated ? <Navigate to={getDashboardRedirect()} /> : <Login />}
+        />
+ 
 
-  <Route path="/patient-login" element={<PatientRegistration>m    </PatientRegistration>}></Route>
+  <Route path="/patient-login" element={<PatientRegistration>   </PatientRegistration>}></Route>
   <Route path="/doctor-login" element={<DoctorRegistration></DoctorRegistration>}></Route>
   <Route path="pharmacist-login" element={<PharmacyRegistration></PharmacyRegistration>}></Route>
+
+  {/* pharmacy */}
+          <Route path="/pharmacy/dashboard" element={<Dashboard />} />
+          <Route
+            path="/pharmacy/products"
+            element={<PharmacyProductsTable />}
+          />
+          <Route path="/pharmacy/orders" element={<OrderManagement />} />
+         
+          {/* doctor */}
+          <Route path="/doctor/profile" element={<DoctorProfile />} />
+          <Route
+            path="/doctor/pending-appointments"
+            element={<AppointmentRequests />}
+          />
+          {/* patient */}
+          <Route path="/patient/doctors" element={<DoctorsListingPage />} />
+          <Route path="/patient/profile" element={<HHomePage />} />
+          {/* medicine + cart */}
+          <Route path="/medicine/all" element={<MedicinePage />} />
+          <Route path="/cart" element={<CartPage />} />
+
+ 
   
 </Routes>
+ </CartProvider>
     </>
   )
 }

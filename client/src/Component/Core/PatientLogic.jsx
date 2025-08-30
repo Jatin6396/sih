@@ -61,7 +61,8 @@ export default function PatientRegistration() {
     e.preventDefault();
  try {
     const response = await axios.post("http://localhost:5500/api/v1/user/signup", formData);
-
+    console.log(response);
+    
     if (response.data.success) {
       alert("Paitents registered successfully!");
 

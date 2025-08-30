@@ -30,6 +30,8 @@ export const loginUser = createAsyncThunk(
     try {
       console.log(userData)
       const response = await axiosClient.post("/user/signin", userData);
+      console.log("hii"+response.data.token);
+      localStorage.setItem("token", response.data.token)
       return response.data.user;
     } catch (err) {
       console.error(err);

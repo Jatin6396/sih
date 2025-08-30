@@ -24,13 +24,6 @@ export default function DoctorRegistration() {
     hospital: "",
     specialization: "",
     role: "doctor",
-
-    "name": "Dr. John Smith",
-  "email": "dr.johnsmith@example.com",
-  "password": "SecurePass123!",
-  "hospital": "City General Hospital",
-  "specialization": "Cardiology",
-  "role": "doctor"
   });
 
   const handleChange = (e) => {

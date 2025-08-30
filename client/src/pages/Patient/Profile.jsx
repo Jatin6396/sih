@@ -24,7 +24,7 @@ import { useSelector } from "react-redux";
 // import { headers } from "next/headers";
 import { useEffect } from "react";
 
-export default function HomePage() {
+export default function HHomePage() {
   const {user }=useSelector((state)=>state.auth)
   const [activeTab, setActiveTab] = useState("upcoming");
   console.log("hiidcbhjdjnj"+user?.name)

@@ -15,7 +15,7 @@ export default function Signup() {
   const userTypes = [
     {
       id: "patient",
-      title: "Patient Login",
+      title: "Signup as Patient",
       description: "Access your medical records, book appointments, and consult with doctors",
       icon: User,
       color: "from-blue-500 to-blue-600",
@@ -24,7 +24,7 @@ export default function Signup() {
     },
     {
       id: "doctor",
-      title: "Doctor Login",
+      title: "Signup as Doctor",
       description: "Access your dashboard, manage appointments, and consult with patients",
       icon: Stethoscope,
       color: "from-green-500 to-green-600",
@@ -33,7 +33,7 @@ export default function Signup() {
     },
     {
       id: "pharmacist",
-      title: "Pharmacist Login",
+      title: "Signup as Pharmacist",
       description: "Manage prescriptions, inventory, and medication orders",
       icon: Pill,
       color: "from-orange-500 to-orange-600",
@@ -83,7 +83,7 @@ export default function Signup() {
                     <button 
                       className={`w-full py-3 px-4 rounded-lg bg-gradient-to-r ${user.color} ${user.hoverColor} text-white font-medium transition-all duration-300 flex items-center justify-center`}
                     >
-                      Login as {user.title.split(' ')[0]}
+                        {user.title.split(' ')[0]}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </button>
                   </Link>
